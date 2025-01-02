@@ -1,9 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
 
 $maintenance_mode = $config['maintenance_mode'];
 if ($maintenance_mode == true) {

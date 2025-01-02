@@ -1,9 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
 _admin();
 $ui->assign('_title', Lang::T('Settings'));
 $ui->assign('_system_menu', 'settings');
@@ -58,19 +54,19 @@ switch ($action) {
         }
 
         if (!empty(_get('testWa'))) {
-            $result = Message::sendWhatsapp(_get('testWa'), 'PHPNuxBill Test Whatsapp');
+            $result = Message::sendWhatsapp(_get('testWa'), 'BenFex Test Whatsapp');
             r2(U . "settings/app", 's', 'Test Whatsapp has been send<br>Result: ' . $result);
         }
         if (!empty(_get('testSms'))) {
-            $result = Message::sendSMS(_get('testSms'), 'PHPNuxBill Test SMS');
+            $result = Message::sendSMS(_get('testSms'), 'BenFex Test SMS');
             r2(U . "settings/app", 's', 'Test SMS has been send<br>Result: ' . $result);
         }
         if (!empty(_get('testEmail'))) {
-            Message::sendEmail(_get('testEmail'), 'PHPNuxBill Test Email', 'PHPNuxBill Test Email Body');
+            Message::sendEmail(_get('testEmail'), 'BenFex Test Email', 'BenFex Test Email Body');
             r2(U . "settings/app", 's', 'Test Email has been send');
         }
         if (!empty(_get('testTg'))) {
-            $result = Message::sendTelegram('PHPNuxBill Test Telegram');
+            $result = Message::sendTelegram('BenFex Test Telegram');
             r2(U . "settings/app", 's', 'Test Telegram has been send<br>Result: ' . $result);
         }
 

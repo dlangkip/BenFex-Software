@@ -1,9 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
 $step = _req('step', 0);
 $otpPath = $CACHE_PATH . File::pathFixer('/forgot/');
 

@@ -1,9 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
 
 if ($_c['disable_registration'] == 'noreg') {
     _alert(Lang::T('Registration Disabled'), 'danger', "login");
