@@ -1,10 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
-
 use PEAR2\Net\RouterOS;
 
 class Mikrotik

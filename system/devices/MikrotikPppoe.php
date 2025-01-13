@@ -1,12 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- *
- * This is Core, don't modification except you want to contribute
- * better create new plugin
- **/
 
 use PEAR2\Net\RouterOS;
 
@@ -18,12 +11,6 @@ class MikrotikPppoe
         return [
             'title' => 'Mikrotik PPPOE',
             'description' => 'To handle connection between PHPNuxBill with Mikrotik PPPOE',
-            'author' => 'ibnux',
-            'url' => [
-                'Github' => 'https://github.com/hotspotbilling/phpnuxbill/',
-                'Telegram' => 'https://t.me/phpnuxbill',
-                'Donate' => 'https://paypal.me/ibnux'
-            ]
         ];
     }
 

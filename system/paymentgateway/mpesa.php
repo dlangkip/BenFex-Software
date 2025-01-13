@@ -1,12 +1,5 @@
 <?php
 
-/**
- * PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *
- * Payment Gateway M-Pesa Safaricom
- * 
- * Created by Kiprotich
- **/
 
 function mpesa_validate_config()
 {

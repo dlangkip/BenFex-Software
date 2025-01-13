@@ -1,8 +1,6 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
  *
  * Meta is for save adtional information in database for every existing table
  *

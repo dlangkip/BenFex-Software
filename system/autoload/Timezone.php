@@ -1,9 +1,4 @@
 <?php
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
-
 
 class Timezone {
     public static function timezoneList()

@@ -1,11 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/SiberTech/)
- *  by https://t.me/ibnux
- **/
-
-
 class Paginator
 {
     public static function findMany($query, $search = [], $per_page = '10', $append_url = "", $toArray = false)

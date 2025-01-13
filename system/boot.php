@@ -1,9 +1,5 @@
 <?php
 
-/**
- * PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
-
- **/
 
 try {
     require_once 'init.php';

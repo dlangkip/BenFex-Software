@@ -1,13 +1,5 @@
 <?php
 
-/**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- *
- * This is Core, don't modification except you want to contribute
- * better create new plugin
- **/
-
 class Radius
 {
 
@@ -17,12 +9,6 @@ class Radius
         return [
             'title' => 'Radius',
             'description' => 'Radius system with Mysql/Mariadb as database',
-            'author' => 'ibnux',
-            'url' => [
-                'Github' => 'https://github.com/hotspotbilling/phpnuxbill/',
-                'Telegram' => 'https://t.me/phpnuxbill',
-                'Donate' => 'https://paypal.me/ibnux'
-            ]
         ];
     }
 

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BenFex - Connect to Internet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+        }
+        .voucher-input {
+            margin: 20px 0;
+        }
+        .voucher-input input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .voucher-input button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .voucher-input button:hover {
+            background: #0056b3;
+        }
+        .package-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+        .package-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .duration {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin: 0;
+        }
+        .details {
+            margin-left: 24px;
+            color: #666;
+            font-size: 14px;
+        }
+        .details p {
+            margin: 4px 0;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            margin-right: 24px;
+        }
+        .price span {
+            color: rgb(186, 186, 0);
+        }
+        .subscribe-btn {
+            background: rgb(47, 34, 155);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .subscribe-btn:hover {
+            background: rgb(37, 27, 122);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="sticky-wrapper">
+                <h4 class="text-center mb-3">Connect to Internet</h4>
+                <p class="text-center text-muted mb-4">Enter your voucher code or select a package below</p>
+                
+                <form class="form" name="login" action="$(link-login-only)" method="post" onSubmit="return doLogin()">
+                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                    <div id="benfex-error">$(if error) $(error) $(endif)</div>
+                    
+                    <input type="hidden" name="dst" value="$(link-orig)" />
+                    <input type="hidden" name="popup" value="false" />
+                    
+                    <div class="voucher-input">
+                        <input type="text" id="voucher-code" name="username" value="$(username)" 
+                               placeholder="Enter voucher code" oninput="updatePassword(this)" required />
+                        <input type="hidden" id="password" name="password" />
+                        <button type="submit" id="connect-btn">Connect to Internet</button>
+                    </div>
+                </form>
+
+                <div class="text-center mb-4">
+                    <h5>- OR -</h5>
+                    <p>Choose a package below</p>
+                </div>
+
+                <div id="package-container" class="package-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <h5 class="mb-3">M-Pesa Payment</h5>
+            <div id="package-details"></div>
+            <div class="form-group mt-3">
+                <label for="phone-number">Enter M-Pesa Phone Number:</label>
+                <input type="text" id="phone-number" class="form-control" placeholder="e.g., 254712345678" />
+                <small class="text-muted">Enter number in format: 254XXXXXXXXX</small>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-secondary me-2" onclick="closeModal()">Cancel</button>
+                <button id="pay-button" class="btn btn-primary" onclick="processPayment()">
+                    <span id="payment-spinner" class="loading-spinner" style="display: none;"></span>
+                    Pay with M-Pesa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.js"></script>
+    <script>
+        let selectedPackage = null;
+
+        function updatePassword(input) {
+            document.getElementById('password').value = input.value;
+        }
+
+        function formatValidity(validity, unit) {
+            if (unit === 'Minutes') return `${validity} Minutes`;
+            if (unit === 'Hours') return `${validity} Hours`;
+            if (unit === 'Days') return `${validity} Days`;
+            if (unit === 'Months') return `${validity} Months`;
+            return `${validity} ${unit}`;
+        }
+
+        function fetchPackages() {
+            const packagesUrl = '/benfex-setup/benfex/fetch_packages.php';
+            
+            fetch(packagesUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('package-container');
+                    container.innerHTML = '';
+                    
+                    if (!Array.isArray(data) || data.length === 0) {
+                        container.innerHTML = '<p class="text-warning">No packages available at the moment.</p>';
+                        return;
+                    }
+                    
+                    data.forEach(pkg => {
+                        const validityText = formatValidity(pkg.validity, pkg.validity_unit);
+                        const card = document.createElement('div');
+                        card.className = 'package-card';
+                        card.innerHTML = `
+                            <h3 class="duration">${validityText}</h3>
+                            <div class="details">
+                                <p>Devices: ${pkg.shared_users}</p>
+                                <p>Validity: ${validityText}</p>
+                            </div>
+                            <p class="price"><span>KES</span> ${pkg.price}</p>
+                            <button class="subscribe-btn" onclick="selectPackage('${pkg.name_plan}', ${pkg.price}, '${validityText}', ${pkg.shared_users})">
+                                Subscribe
+                            </button>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching packages:', error);
+                    document.getElementById('package-container').innerHTML = 
+                        `<p class="text-danger">Error loading packages: ${error.message}</p>`;
+                });
+        }
+
+        function selectPackage(name, price, validity, sharedUsers) {
+            selectedPackage = { name, price, validity, sharedUsers };
+            const modal = document.getElementById('payment-modal');
+            const details = document.getElementById('package-details');
+            details.innerHTML = `
+                <p><strong>Package:</strong> ${name}</p>
+                <p><strong>Price:</strong> KES ${price}</p>
+                <p><strong>Validity:</strong> ${validity}</p>
+                <p><strong>Max Devices:</strong> ${sharedUsers}</p>
+            `;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            document.getElementById('payment-spinner').style.display = 'none';
+            document.getElementById('pay-button').disabled = false;
+        }
+
+        async function processPayment() {
+    const phoneNumber = document.getElementById('phone-number').value;
+    const spinner = document.getElementById('payment-spinner');
+    const payButton = document.getElementById('pay-button');
+
+    if (!phoneNumber || !phoneNumber.match(/^254\d{9}$/)) {
+        Swal.fire('Error', 'Please enter a valid phone number in format: 254XXXXXXXXX', 'error');
+        return;
+    }
+
+    spinner.style.display = 'inline-block';
+    payButton.disabled = true;
+
+    try {
+        const response = await fetch('/benfex-setup/benfex/system/paymentgateway/mpesa.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                phoneNumber: phoneNumber,
+                amount: selectedPackage.price,
+                packageName: selectedPackage.name,
+                validity: selectedPackage.validity,
+                sharedUsers: selectedPackage.sharedUsers
+            })
+        });
+
+        // Log response details for debugging
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+        
+        const responseText = await response.text();
+        console.log('Raw response:', responseText);
+
+        // Check for ngrok-specific error messages
+        if (responseText.includes('ngrok gateway error')) {
+            throw new Error('Connection error: The ngrok tunnel is not active or has expired. Please contact the administrator.');
+        }
+
+        let result;
+        try {
+            result = JSON.parse(responseText);
+        } catch (e) {
+            console.error('JSON parsing error:', e);
+            if (responseText.includes('ERR_NGROK')) {
+                throw new Error('Connection error: Please try again in a few moments or contact the administrator.');
+            }
+            throw new Error(`Invalid server response. Please try again later.`);
+        }
+
+        if (!result.success) {
+            throw new Error(result.error || 'Payment initiation failed');
+        }
+
+        if (result.data.ResponseCode === "0") {
+            closeModal();
+            Swal.fire({
+                title: 'Payment Initiated',
+                text: 'Please check your phone and enter M-Pesa PIN to complete payment',
+                icon: 'success',
+                timer: 10000,
+                showConfirmButton: false
+            });
+
+            // Start polling for payment status
+            pollPaymentStatus(result.data.CheckoutRequestID);
+        } else {
+            throw new Error(result.data.CustomerMessage || 'Payment initiation failed');
+        }
+    } catch (error) {
+        console.error('Payment error:', error);
+        Swal.fire('Error', error.message || 'Failed to process payment. Please try again.', 'error');
+    } finally {
+        spinner.style.display = 'none';
+        payButton.disabled = false;
+    }
+}
+
+async function pollPaymentStatus(checkoutRequestId) {
+            let attempts = 0;
+            const maxAttempts = 10;
+            const pollInterval = 5000; // 5 seconds
+
+            const checkStatus = async () => {
+                if (attempts >= maxAttempts) return;
+
+                try {
+                    const response = await fetch('/benfex-setup/benfex/system/paymentgateway/mpesa.php?check_status=' + checkoutRequestId);
+                    const result = await response.json();
+
+                    if (result.status === 'completed') {
+                        Swal.fire('Success', 'Payment completed! Your voucher code will be sent via SMS.', 'success');
+                        return;
+                    } else if (result.status === 'failed') {
+                        Swal.fire('Failed', 'Payment failed or was cancelled.', 'error');
+                        return;
+                    }
+
+                    attempts++;
+                    setTimeout(checkStatus, pollInterval);
+                } catch (error) {
+                    console.error('Status check error:', error);
+                    attempts++;
+                    setTimeout(checkStatus, pollInterval);
+                }
+            };
+
+            checkStatus();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('payment-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Load packages when the page loads
+        document.addEventListener('DOMContentLoaded', fetchPackages);
+    </script>
+</body>
+</html>

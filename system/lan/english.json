@@ -1094,5 +1094,12 @@
     "Notify_Admin": "Notify Admin",
     "Notify_Admin_upon_self_registration": "Notify Admin upon self registration",
     "Mandatory_Fields": "Mandatory Fields",
-    "Mikrotik_SMS_Command": "Mikrotik SMS Command"
+    "Mikrotik_SMS_Command": "Mikrotik SMS Command",
+    "Registration_successful": "Registration successful",
+    "Not_Working_with_Freeradius_Mysql": "Not Working with Freeradius Mysql",
+    "Edit_NAS": "Edit NAS",
+    "Also_Working_for_freeradius": "Also Working for freeradius",
+    "Display_bandwidth_plan_for_customer": "Display bandwidth plan for customer",
+    "Allow_Balance_Custom_Amount": "Allow Balance Custom Amount",
+    "Payment_request_sent__Please_check_your_phone_to_complete_the_transaction_": "Payment request sent. Please check your phone to complete the transaction."
 }

@@ -1,9 +1,5 @@
 <?php
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
-/**
  *  This script is for managing user balance
  **/
 

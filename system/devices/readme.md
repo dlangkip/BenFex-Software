@@ -13,13 +13,7 @@ class FileName {
         return [
             'title' => 'Device',
             'description' => '',
-            'author' => 'ibnu maksum',
-            'url' => [
-                'Github' => 'https://github.com/hotspotbilling/phpnuxbill/',
-                'Telegram' => 'https://t.me/ibnux',
-                'Donate' => 'https://paypal.me/ibnux',
-                'any text' => 'Any Url'
-            ]
+            'author' => 'Kiprotich',
         ];
     }
 

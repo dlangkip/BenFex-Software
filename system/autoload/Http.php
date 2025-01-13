@@ -1,11 +1,6 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
- **/
-
-/**
  *  using proxy, add this variable in config.php
  *  $http_proxy  = '127.0.0.1:3128';
  *  if proxy using authentication, use this parameter
