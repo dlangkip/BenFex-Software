@@ -8,6 +8,7 @@ class RadiusRest {
         return [
             'title' => 'Radius Rest API',
             'description' => 'This devices will handle Radius Connection using Rest API',
+            'author' => 'Kipro',
         ];
     }
 

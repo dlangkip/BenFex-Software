@@ -9,6 +9,7 @@ class Radius
         return [
             'title' => 'Radius',
             'description' => 'Radius system with Mysql/Mariadb as database',
+            'author' => 'Kipro',
         ];
     }
 

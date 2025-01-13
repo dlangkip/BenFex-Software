@@ -10,7 +10,8 @@ class MikrotikPppoe
     {
         return [
             'title' => 'Mikrotik PPPOE',
-            'description' => 'To handle connection between PHPNuxBill with Mikrotik PPPOE',
+            'description' => 'To handle connection between BENFEX with Mikrotik PPPOE',
+            'author' => 'Kipro',
         ];
     }
 

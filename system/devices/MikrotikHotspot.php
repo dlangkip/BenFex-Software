@@ -11,7 +11,8 @@ class MikrotikHotspot
     {
         return [
             'title' => 'Mikrotik Hotspot',
-            'description' => 'To handle connection between PHPNuxBill with Mikrotik Hotspot',
+            'description' => 'To handle connection between BENFEX with Mikrotik Hotspot',
+            'author' => 'Kipro',
         ];
     }
 

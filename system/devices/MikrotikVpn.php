@@ -9,14 +9,8 @@ class MikrotikVpn
     {
         return [
             'title' => 'Mikrotik Vpn',
-            'description' => 'To handle connection between PHPNuxBill with Mikrotik VPN',
-            'author' => 'agstr',
-            'url' => [
-                'Github' => 'https://github.com/agstrxyz',
-                'Telegram' => 'https://t.me/agstrxyz',
-                'Youtube' => 'https://www.youtube.com/@agstrxyz',
-                'Donate' => 'https://paypal.me/ibnux'
-            ]
+            'description' => 'To handle connection between BENFEX with Mikrotik VPN',
+            'author' => 'Kipro',
         ];
     }
 

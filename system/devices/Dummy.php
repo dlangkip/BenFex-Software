@@ -7,6 +7,7 @@ class Dummy {
     {
         return [
             'title' => 'Dummy',
+            'author' => 'Kipro',
             'description' => 'This devices is just dummy and do nothing, good if you just want to use billing only without doing something to device',
         ];
     }
