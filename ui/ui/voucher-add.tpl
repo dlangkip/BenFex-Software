@@ -60,10 +60,10 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">{Lang::T('Voucher Prefix')}</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="prefix" placeholder="NUX-"
+                            <input type="text" class="form-control" name="prefix" placeholder="FBA-"
                                 value="{$_c['voucher_prefix']}">
                         </div>
-                        <p class="help-block col-md-4">NUX-VoUCHeRCOdE</p>
+                        <p class="help-block col-md-4">FBA-VoUCHeRCOdE</p>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">{Lang::T('Length Code')}</label>
