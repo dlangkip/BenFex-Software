@@ -13,7 +13,7 @@
                     <input type="hidden" name="id" value="{$d['id']}">
                     <center>
                         <img src="{$UPLOAD_PATH}{$d['photo']}.thumb.jpg" width="200"
-                            onerror="this.src='{$UPLOAD_PATH}/admin.default.png'" class="img-circle img-responsive" alt="Foto"
+                            onerror="this.src='{$UPLOAD_PATH}/admin.default.png'" class="img-circle img-responsive" alt="Photo"
                             onclick="return deletePhoto({$d['id']})">
                     </center><br>
                     <div class="form-group">
