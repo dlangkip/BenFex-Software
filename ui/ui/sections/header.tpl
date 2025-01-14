@@ -1439,10 +1439,12 @@
                                     </a>
                                 </li>
                                 {$_MENU_SETTINGS}
+                                {*
                                 <li {if $_routes[0] eq 'pluginmanager' }class="active" {/if}>
                                     <a href="{$_url}pluginmanager"><i class="glyphicon glyphicon-tasks"></i>
                                         {Lang::T('Plugin Manager')}</a>
                                 </li>
+                                *}
                             {/if}
                         </ul>
                     </li>
@@ -1457,7 +1459,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li {if $_routes[1] eq 'list' }class="active" {/if}><a
-                                        href="{$_url}logs/phpnuxbill">BenFex</a></li>
+                                        href="{$_url}logs/phpnuxbill">BENFEX</a></li>
                                 {if $_c['radius_enable']}
                                     <li {if $_routes[1] eq 'radius' }class="active" {/if}><a
                                             href="{$_url}logs/radius">Radius</a>
