@@ -2,7 +2,7 @@
 
 
 _admin();
-$ui->assign('_title', 'BenFex Logs');
+$ui->assign('_title', 'BENFEX Logs');
 $ui->assign('_system_menu', 'logs');
 
 $action = $routes['1'];
