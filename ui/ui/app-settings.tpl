@@ -1152,7 +1152,7 @@
                         <input type="text" value="{$_c['custom_tax_rate']}" class="form-control" name="custom_tax_rate"
                             id="custom_tax_rate" placeholder="{Lang::T('Enter Custome Tax Rate')}">
                     </div>
-                    <p class="help-block col-md-4">{Lang::T('Enter the custom tax rate (e.g., 3.75 for 3.75%)')}</p>
+                    <p class="help-block col-md-4">{Lang::T('Enter the custom tax rate (e.g., 16 for 16%)')}</p>
                 </div>
 
                 <button class="btn btn-success btn-block" type="submit">
@@ -1182,7 +1182,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">https://github.com/</span>
                             <input type="text" class="form-control" id="github_username" name="github_username"
-                                value="{$_c['github_username']}" placeholder="ibnux">
+                                value="{$_c['github_username']}" placeholder="kipro">
                         </div>
                     </div>
                 </div>
