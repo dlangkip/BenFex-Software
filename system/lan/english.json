@@ -1101,5 +1101,9 @@
     "Also_Working_for_freeradius": "Also Working for freeradius",
     "Display_bandwidth_plan_for_customer": "Display bandwidth plan for customer",
     "Allow_Balance_Custom_Amount": "Allow Balance Custom Amount",
-    "Payment_request_sent__Please_check_your_phone_to_complete_the_transaction_": "Payment request sent. Please check your phone to complete the transaction."
+    "Payment_request_sent__Please_check_your_phone_to_complete_the_transaction_": "Payment request sent. Please check your phone to complete the transaction.",
+    "Enter_the_custom_tax_rate__e_g___16_for_16__": "Enter the custom tax rate (e.g., 16 for 16%)",
+    "Beta_Hotspot": "Beta Hotspot",
+    "Pesapal_Payment_Gateway": "Pesapal Payment Gateway",
+    "KCB_Bank_Payment_Gateway": "KCB Bank Payment Gateway"
 }
