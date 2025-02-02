@@ -1,5 +1,12 @@
 <?php
 
+if (!defined('U')) {
+    // Create base URL from server variables
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $baseUrl = $protocol . $host . '/benfex-networks/';
+    define('U', $baseUrl);
+}
 
 function mpesa_validate_config()
 {
@@ -127,7 +134,7 @@ function mpesa_create_transaction($trx, $user)
         'PartyA' => $user['phonenumber'],
         'PartyB' => $config['mpesa_shortcode'],
         'PhoneNumber' => $user['phonenumber'],
-        'CallBackURL' => U . 'https://f26d-102-219-210-201.ngrok-free.app/benfex-setup/benfex/system/paymentgateway/mpesa.php',
+        'CallBackURL' => U . 'system/paymentgateway/mpesa.php',
         'AccountReference' => $trx['id'],
         'TransactionDesc' => 'Payment for Order #' . $trx['id']
     );
@@ -148,6 +155,12 @@ function mpesa_create_transaction($trx, $user)
     $result = json_decode($response);
 
     if (isset($result->ResponseCode) && $result->ResponseCode == "0") {
+        // For API calls, return the result
+        if (isset($GLOBALS['is_api_call']) && $GLOBALS['is_api_call']) {
+            return $result;
+        }
+        
+        // Normal flow for web interface
         $d = ORM::for_table('tbl_payment_gateway')
             ->where('username', $user['username'])
             ->where('status', 1)
@@ -159,8 +172,33 @@ function mpesa_create_transaction($trx, $user)
         
         r2(U . "order/view/" . $d['id'], 's', Lang::T("Payment request sent. Please check your phone to complete the transaction."));
     } else {
+        if (isset($GLOBALS['is_api_call']) && $GLOBALS['is_api_call']) {
+            throw new Exception(Lang::T("Failed to create transaction."));
+        }
         sendTelegram("M-Pesa payment failed\n\n" . json_encode($result, JSON_PRETTY_PRINT));
         r2(U . 'order/package', 'e', Lang::T("Failed to create transaction."));
+    }
+    try {
+        $GLOBALS['is_api_call'] = true;
+        $result = mpesa_create_transaction($trx, $user);
+        
+        if (empty($result)) {
+            throw new Exception('Empty result from mpesa_create_transaction');
+        }
+        
+        // Clear any output buffer
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'data' => $result
+        ]);
+        
+    } catch (Exception $e) {
+        error_log("M-Pesa Transaction Error: " . $e->getMessage());
+        throw $e;
     }
 }
 
@@ -309,8 +347,4 @@ function mpesa_get_status($trx, $user)
 }
 
 
-// error_log("Received POST request: " . json_encode($_POST));
-// echo json_encode(["status" => "success", "message" => "Request received"]);
 
-// $data = json_decode(file_get_contents('php://input'), true);
-// error_log("Received Data: " . print_r($data, true)); // Logs the received data to the server logs
