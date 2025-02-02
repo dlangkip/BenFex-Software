@@ -2,196 +2,382 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BenFex - Connect to Internet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css">
     <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+
         body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-        }
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: var(--background);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            align-items: center;
         }
-        .login-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            width: 100%;
+
+        .login-container {
             max-width: 600px;
-            padding: 30px;
-        }
-        .voucher-input {
-            margin: 20px 0;
-        }
-        .voucher-input input {
+            margin: 40px auto;
+            padding: 20px;
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 15px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .benfex-error {
+            color: red;
+        }
+
+        .form-control {
+            border: 2px solid #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
             font-size: 16px;
+            transition: all 0.2s ease;
         }
-        .voucher-input button {
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .connect-btn {
             width: 100%;
-            padding: 12px;
-            background: #007bff;
+            background: var(--primary-color);
             color: white;
+            padding: 14px;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
+            font-weight: 600;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.2s ease;
         }
-        .voucher-input button:hover {
-            background: #0056b3;
+
+        .connect-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
-        .package-grid {
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .package-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .package-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .package-info {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin: 0 auto;
-            padding: 16px;
+            gap: 6px;
         }
-        .package-card {
-            display: grid;
-            grid-template-columns: auto 1fr auto auto;
-            align-items: center;
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .duration {
+
+        .package-duration {
             font-size: 18px;
-            font-weight: 500;
-            color: #333;
+            font-weight: 600;
+            color: var(--text-primary);
             margin: 0;
         }
-        .details {
-            margin-left: 24px;
-            color: #666;
+
+        .package-details {
             font-size: 14px;
-        }
-        .details p {
-            margin: 4px 0;
-        }
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
+            color: var(--text-secondary);
             margin: 0;
-            margin-right: 24px;
         }
-        .price span {
-            color: rgb(186, 186, 0);
+
+        .package-price {
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
         }
+
         .subscribe-btn {
-            background: rgb(47, 34, 155);
+            background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 8px 20px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 14px;
+            transition: all 0.2s ease;
         }
+
         .subscribe-btn:hover {
-            background: rgb(37, 27, 122);
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
+
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
         }
+
         .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            border-radius: 8px;
+            background: white;
             width: 90%;
             max-width: 400px;
+            margin: 60px auto;
+            padding: 32px;
+            border-radius: 16px;
+            position: relative;
         }
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        #package-details {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .phone-hint {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-cancel {
+            background: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-pay {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-pay:hover {
+            background: var(--primary-hover);
+        }
+
+        .payment-status {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 10px;
+            margin: 0 auto 20px;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .customer-care {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .customer-care h2 {
+            color: var(--text-secondary);
+        }
+
+        .customer-care p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 16px;
+                margin: 20px auto;
+            }
+
+            .login-card {
+                padding: 24px;
+            }
+
+            .package-card {
+                padding: 16px;
+            }
+
+            .modal-content {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-card">
-            <div class="sticky-wrapper">
-                <h4 class="text-center mb-3">Connect to Internet</h4>
-                <p class="text-center text-muted mb-4">Enter your voucher code or select a package below</p>
+            <h6 class="right-bar-heading px-3 mt-2 text-dark text-center font-20 text-uppercase">Connect to internet</h6>
+            <p class="text-center text-muted mt-2 mb-4">Please enter access code or select a package below</p>
+            
+            <form name="login" action="$(link-login-only)" method="post" onSubmit="return doLogin()">
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <div id="benfex-error" style="color: red;">$(if error) $(error) $(endif)</div>
                 
-                <form class="form" name="login" action="$(link-login-only)" method="post" onSubmit="return doLogin()">
-                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-                    <div id="benfex-error">$(if error) $(error) $(endif)</div>
-                    
-                    <input type="hidden" name="dst" value="$(link-orig)" />
-                    <input type="hidden" name="popup" value="false" />
-                    
-                    <div class="voucher-input">
-                        <input type="text" id="voucher-code" name="username" value="$(username)" 
-                               placeholder="Enter voucher code" oninput="updatePassword(this)" required />
-                        <input type="hidden" id="password" name="password" />
-                        <button type="submit" id="connect-btn">Connect to Internet</button>
-                    </div>
-                </form>
-
-                <div class="text-center mb-4">
-                    <h5>- OR -</h5>
-                    <p>Choose a package below</p>
+                <input type="hidden" name="dst" value="$(link-orig)" />
+                <input type="hidden" name="popup" value="false" />
+                
+                <input type="text" 
+                       class="form-control" 
+                       id="voucher-code" 
+                       name="username" 
+                       placeholder="Enter voucher code" 
+                       oninput="updatePassword(this)" 
+                       required />
+                <input type="hidden" id="password" name="password" />
+                
+                <button type="submit" class="connect-btn">Connect Now</button>
+                
+                <div class="customer-care">
+                    <h2>Important Note</h2>
+                  <ul>
+                    <li> <p> If you did'nt recieve the code after payment click <a style="color:rgb(0, 85, 45);" href="#">Here</a></p></li><br>
+                    <li> <p> Dial *456*9*5*5# to unblock promotional messages</p></li><br>
+                    <li> <p>For assistance, call or WhatsApp: <strong>0113544842</strong></p></li>
+                  </ul>
                 </div>
+            </form>
 
-                <div id="package-container" class="package-grid"></div>
-            </div>
+            <div class="divider">OR SELECT A PACKAGE</div>
+
+            <div id="package-container"></div>
         </div>
     </div>
 
-    <!-- Payment Modal -->
     <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <h5 class="mb-3">M-Pesa Payment</h5>
-            <div id="package-details"></div>
-            <div class="form-group mt-3">
-                <label for="phone-number">Enter M-Pesa Phone Number:</label>
-                <input type="text" id="phone-number" class="form-control" placeholder="e.g., 254712345678" />
-                <small class="text-muted">Enter number in format: 254XXXXXXXXX</small>
+            <div id="payment-form">
+                <h3 class="modal-title">M-Pesa Payment</h3>
+                <div id="package-details"></div>
+                
+                <div>
+                    <label for="phone-number" class="mb-2">M-Pesa Phone Number</label>
+                    <input type="tel" 
+                           id="phone-number" 
+                           class="form-control" 
+                           placeholder="07XXXXXXXXX or 01XXXXXXXXX"
+                           maxlength="10" />
+                    <div class="phone-hint">Format: 07XXXXXXXXX or 01XXXXXXXXX (10 digits)</div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button id="pay-button" class="btn-pay" onclick="processPayment()">
+                        Pay with M-Pesa
+                    </button>
+                </div><br>
+                <div class="text-center py-2">
+                    <small class="text-muted">
+                        Powered by <strong>BENFEX</strong> | Developed by <strong>Dlang</strong>
+                    </small>
+                </div>
+            
             </div>
-            <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-secondary me-2" onclick="closeModal()">Cancel</button>
-                <button id="pay-button" class="btn btn-primary" onclick="processPayment()">
-                    <span id="payment-spinner" class="loading-spinner" style="display: none;"></span>
-                    Pay with M-Pesa
-                </button>
+
+            <div id="payment-status" class="payment-status">
+                <div class="spinner"></div>
+                <h4 class="mb-3">Processing Payment</h4>
+                <p class="mb-4">Please check your phone for the M-Pesa prompt</p>
+                <button class="btn-cancel" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.js"></script>
     <script>
         let selectedPackage = null;
 
@@ -207,8 +393,29 @@
             return `${validity} ${unit}`;
         }
 
+        function formatPhoneNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length >= 2) {
+                if (!value.startsWith('07') && !value.startsWith('01')) {
+                    if (value[0] === '0') {
+                        value = '01' + value.slice(2);
+                    } else {
+                        value = '07' + value.slice(2);
+                    }
+                }
+            }
+            
+            value = value.slice(0, 10);
+            input.value = value;
+        }
+
+        document.getElementById('phone-number').addEventListener('input', function() {
+            formatPhoneNumber(this);
+        });
+
         function fetchPackages() {
-            const packagesUrl = '/benfex-setup/benfex/fetch_packages.php';
+            const packagesUrl = '/benfex-networks/fetch_packages.php';
             
             fetch(packagesUrl)
                 .then(response => {
@@ -222,7 +429,7 @@
                     container.innerHTML = '';
                     
                     if (!Array.isArray(data) || data.length === 0) {
-                        container.innerHTML = '<p class="text-warning">No packages available at the moment.</p>';
+                        container.innerHTML = '<p class="text-center text-muted">No packages available</p>';
                         return;
                     }
                     
@@ -231,12 +438,11 @@
                         const card = document.createElement('div');
                         card.className = 'package-card';
                         card.innerHTML = `
-                            <h3 class="duration">${validityText}</h3>
-                            <div class="details">
-                                <p>Devices: ${pkg.shared_users}</p>
-                                <p>Validity: ${validityText}</p>
+                            <div class="package-info">
+                                <div class="package-duration">${validityText}</div>
+                                <div class="package-details">Devices: ${pkg.shared_users}</div>
+                                <div class="package-price">KES ${pkg.price}</div>
                             </div>
-                            <p class="price"><span>KES</span> ${pkg.price}</p>
                             <button class="subscribe-btn" onclick="selectPackage('${pkg.name_plan}', ${pkg.price}, '${validityText}', ${pkg.shared_users})">
                                 Subscribe
                             </button>
@@ -245,9 +451,9 @@
                     });
                 })
                 .catch(error => {
-                    console.error('Error fetching packages:', error);
+                    console.error('Error:', error);
                     document.getElementById('package-container').innerHTML = 
-                        `<p class="text-danger">Error loading packages: ${error.message}</p>`;
+                        '<p class="text-center text-danger">Failed to load packages</p>';
                 });
         }
 
@@ -259,130 +465,74 @@
                 <p><strong>Package:</strong> ${name}</p>
                 <p><strong>Price:</strong> KES ${price}</p>
                 <p><strong>Validity:</strong> ${validity}</p>
-                <p><strong>Max Devices:</strong> ${sharedUsers}</p>
+                <p><strong>Devices:</strong> ${sharedUsers}</p>
             `;
             modal.style.display = 'block';
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('payment-status').style.display = 'none';
         }
 
         function closeModal() {
             document.getElementById('payment-modal').style.display = 'none';
-            document.getElementById('payment-spinner').style.display = 'none';
-            document.getElementById('pay-button').disabled = false;
+            document.getElementById('phone-number').value = '';
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('payment-status').style.display = 'none';
+        }
+
+        function validatePhoneNumber(phone) {
+            return /^(07|01)\d{8}$/.test(phone);
         }
 
         async function processPayment() {
-    const phoneNumber = document.getElementById('phone-number').value;
-    const spinner = document.getElementById('payment-spinner');
-    const payButton = document.getElementById('pay-button');
+            const phoneInput = document.getElementById('phone-number');
+            const phoneNumber = phoneInput.value;
 
-    if (!phoneNumber || !phoneNumber.match(/^254\d{9}$/)) {
-        Swal.fire('Error', 'Please enter a valid phone number in format: 254XXXXXXXXX', 'error');
-        return;
-    }
-
-    spinner.style.display = 'inline-block';
-    payButton.disabled = true;
-
-    try {
-        const response = await fetch('/benfex-setup/benfex/system/paymentgateway/mpesa.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                phoneNumber: phoneNumber,
-                amount: selectedPackage.price,
-                packageName: selectedPackage.name,
-                validity: selectedPackage.validity,
-                sharedUsers: selectedPackage.sharedUsers
-            })
-        });
-
-        // Log response details for debugging
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-        
-        const responseText = await response.text();
-        console.log('Raw response:', responseText);
-
-        // Check for ngrok-specific error messages
-        if (responseText.includes('ngrok gateway error')) {
-            throw new Error('Connection error: The ngrok tunnel is not active or has expired. Please contact the administrator.');
-        }
-
-        let result;
-        try {
-            result = JSON.parse(responseText);
-        } catch (e) {
-            console.error('JSON parsing error:', e);
-            if (responseText.includes('ERR_NGROK')) {
-                throw new Error('Connection error: Please try again in a few moments or contact the administrator.');
+            if (!validatePhoneNumber(phoneNumber)) {
+                alert('Please enter a valid phone number (07XXXXXXXXX or 01XXXXXXXXX)');
+                return;
             }
-            throw new Error(`Invalid server response. Please try again later.`);
-        }
 
-        if (!result.success) {
-            throw new Error(result.error || 'Payment initiation failed');
-        }
+            const internationalFormat = '254' + phoneNumber.substring(1);
+            const payButton = document.getElementById('pay-button');
+            
+            // Show payment status screen
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('payment-status').style.display = 'block';
 
-        if (result.data.ResponseCode === "0") {
-            closeModal();
-            Swal.fire({
-                title: 'Payment Initiated',
-                text: 'Please check your phone and enter M-Pesa PIN to complete payment',
-                icon: 'success',
-                timer: 10000,
-                showConfirmButton: false
-            });
+            try {
+                const response = await fetch('/benfex-networks/system/paymentgateway/api/mpesa_api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phoneNumber: internationalFormat,
+                        amount: selectedPackage.price,
+                        packageName: selectedPackage.name,
+                        validity: selectedPackage.validity,
+                        sharedUsers: selectedPackage.sharedUsers
+                    })
+                });
 
-            // Start polling for payment status
-            pollPaymentStatus(result.data.CheckoutRequestID);
-        } else {
-            throw new Error(result.data.CustomerMessage || 'Payment initiation failed');
-        }
-    } catch (error) {
-        console.error('Payment error:', error);
-        Swal.fire('Error', error.message || 'Failed to process payment. Please try again.', 'error');
-    } finally {
-        spinner.style.display = 'none';
-        payButton.disabled = false;
-    }
-}
+                const result = await response.json();
 
-async function pollPaymentStatus(checkoutRequestId) {
-            let attempts = 0;
-            const maxAttempts = 10;
-            const pollInterval = 5000; // 5 seconds
-
-            const checkStatus = async () => {
-                if (attempts >= maxAttempts) return;
-
-                try {
-                    const response = await fetch('/benfex-setup/benfex/system/paymentgateway/mpesa.php?check_status=' + checkoutRequestId);
-                    const result = await response.json();
-
-                    if (result.status === 'completed') {
-                        Swal.fire('Success', 'Payment completed! Your voucher code will be sent via SMS.', 'success');
-                        return;
-                    } else if (result.status === 'failed') {
-                        Swal.fire('Failed', 'Payment failed or was cancelled.', 'error');
-                        return;
-                    }
-
-                    attempts++;
-                    setTimeout(checkStatus, pollInterval);
-                } catch (error) {
-                    console.error('Status check error:', error);
-                    attempts++;
-                    setTimeout(checkStatus, pollInterval);
+                if (!result.success) {
+                    throw new Error(result.error || 'Payment failed');
                 }
-            };
 
-            checkStatus();
+                // Keep showing the payment status screen
+                document.getElementById('payment-status').querySelector('h4').textContent = 'STK Push Sent';
+                document.getElementById('payment-status').querySelector('p').textContent = 
+                    'Please enter your M-Pesa PIN when prompted on your phone to complete the payment';
+
+            } catch (error) {
+                document.getElementById('payment-form').style.display = 'block';
+                document.getElementById('payment-status').style.display = 'none';
+                alert(error.message || 'Payment failed. Please try again.');
+            }
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('payment-modal');
             if (event.target === modal) {
@@ -390,7 +540,6 @@ async function pollPaymentStatus(checkoutRequestId) {
             }
         }
 
-        // Load packages when the page loads
         document.addEventListener('DOMContentLoaded', fetchPackages);
     </script>
 </body>
