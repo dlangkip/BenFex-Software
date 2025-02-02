@@ -124,7 +124,7 @@ try {
     }
 } catch (Throwable $e) {
     Message::sendTelegram(
-        "Sistem Error.\n" .
+        "System Error.\n" .
             $e->getMessage() . "\n" .
             $e->getTraceAsString()
     );
@@ -137,7 +137,7 @@ try {
     die();
 } catch (Exception $e) {
     Message::sendTelegram(
-        "Sistem Error.\n" .
+        "System Error.\n" .
             $e->getMessage() . "\n" .
             $e->getTraceAsString()
     );
