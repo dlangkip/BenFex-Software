@@ -65,9 +65,9 @@ class MikrotikPppoe
             }
         }
     }
-	
+
 	function sync_customer($customer, $plan)
-    {	
+    {
         $this->add_customer($customer, $plan);
     }
 
@@ -292,7 +292,15 @@ class MikrotikPppoe
             '/ppp active print',
             RouterOS\Query::where('name', $customer['username'])
         );
-        return $client->sendSync($printRequest)->getProperty('.id');
+        $id = $client->sendSync($printRequest)->getProperty('.id');
+        if(empty($id)){
+            $printRequest = new RouterOS\Request(
+                '/ppp active print',
+                RouterOS\Query::where('name', $customer['pppoe_username'])
+            );
+            $id = $client->sendSync($printRequest)->getProperty('.id');
+        }
+        return $id;
     }
 
     function info($name)
